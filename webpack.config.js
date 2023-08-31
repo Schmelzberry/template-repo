@@ -10,16 +10,17 @@ module.exports = {
     path: path.resolve(__dirname, 'dist')
   },
   devServer: {
-    contentBase: './dist'
-  },
+    static: path.resolve(__dirname, 'dist'),
+    port: 9000
+},
   devtool:"eval-source-map",
   plugins: [
     new ESLintPlugin(),
     new CleanWebpackPlugin({
       verbose: true
-    }), // new line
+    }),
     new HtmlWebpackPlugin({
-      title: 'Template',
+      title: 'template',
       template: './src/index.html',
       inject: 'body'
     })
@@ -32,7 +33,22 @@ module.exports = {
           'style-loader',
           'css-loader'
         ]
-      }
+      },
+      {
+        test: /\.(gif|png|avif|jpe?g)$/,
+        type: "asset/resource",
+        generator: {
+          filename: "[name][ext]",
+          publicPath: "assets/images/",
+          outputPath: "assets/images/",
+        },
+      },
+      {
+        test:/\.html$/,
+        use: [
+          'html-loader'
+        ]
+      },
     ]
   }
 };
